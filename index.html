@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIANO 88 — Academia de Piano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#15120e',
+          ink2: '#1c1813',
+          panel: '#211c16',
+          line: '#332b21',
+          line2: '#2a2419',
+          gold: '#c5a463',
+          goldlight: '#e3cb95',
+          ivory: '#f4eee2',
+          mute: '#a89a85',
+          muted2: '#7d7060',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'serif'],
+          display: ['Cormorant Garamond', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #15120e;
+    color: #f4eee2;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .hairline { background: linear-gradient(90deg, transparent, rgba(197,164,99,0.5), transparent); height: 1px; }
+
+  .gold-text { color: #c5a463; }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #d9bd80, #b3914f);
+    color: #1c1813;
+    transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 8px 24px rgba(197,164,99,0.18);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 12px 32px rgba(197,164,99,0.32);
+  }
+
+  .btn-ghost {
+    border: 1px solid #332b21;
+    color: #f4eee2;
+    transition: border-color .35s ease, background-color .35s ease;
+  }
+  .btn-ghost:hover { border-color: #c5a463; background-color: rgba(197,164,99,0.06); }
+
+  .card {
+    background: linear-gradient(160deg, #1c1813, #18140f);
+    border: 1px solid #2a2419;
+    transition: border-color .45s ease, transform .45s ease, box-shadow .45s ease;
+  }
+  .card:hover {
+    border-color: rgba(197,164,99,0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 48px -16px rgba(0,0,0,0.5), 0 0 0 1px rgba(197,164,99,0.08);
+  }
+
+  .num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: #6b5f4d;
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+  /* Piano keys, ivory/ebony styling */
+  .key {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color .12s ease, box-shadow .15s ease, transform .08s ease;
+  }
+  .key.active {
+    background: linear-gradient(180deg, #e3cb95, #c5a463) !important;
+    box-shadow: 0 0 0 1px #c5a463, 0 6px 18px rgba(197,164,99,0.35) inset;
+  }
+  .key.active .key-label { color: #1c1813; }
+  .key:active { transform: translateY(2px); }
+
+  ::selection { background: rgba(197,164,99,0.35); color: #1c1813; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #c5a463;
+    outline-offset: 3px;
+  }
+
+  .quote-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-ink/80 border-b border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="#" class="font-serif text-xl tracking-wide text-ivory">
+      Piano <span class="gold-text italic">88</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-10 text-[13px] tracking-wide text-mute">
+      <a href="#metodologia" class="hover:text-goldlight transition-colors">Método</a>
+      <a href="#programas" class="hover:text-goldlight transition-colors">Programas</a>
+      <a href="#academia" class="hover:text-goldlight transition-colors">La academia</a>
+      <a href="contacto.html" target="_blank" rel="noopener" class="hover:text-goldlight transition-colors">Contacto</a>
+    </nav>
+    <a href="reservar.html" target="_blank" rel="noopener" class="hidden sm:inline-flex text-xs tracking-widest uppercase btn-ghost px-5 py-2.5 rounded-full">
+      Reservar clase
+    </a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative min-h-screen flex items-center pt-28">
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1581373554042-b0f43a94ddcf?fm=jpg&q=80&w=2400&auto=format&fit=crop"
+         alt="Manos interpretando un piano de cola"
+         class="w-full h-full object-cover object-center" />
+    <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/40"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-6 md:px-10 w-full">
+    <div class="max-w-xl">
+      <p class="text-xs tracking-[0.3em] uppercase gold-text mb-7">Academia de piano · Primera promoción abierta</p>
+      <h1 class="font-serif font-light text-[2.5rem] sm:text-6xl leading-[1.08] text-ivory">
+        El arte de la tradición<br>
+        se encuentra con la <span class="italic gold-text">excelencia</span>.
+      </h1>
+      <p class="mt-7 text-mute text-base sm:text-lg leading-relaxed max-w-md">
+        Piano 88 es una academia nueva, construida desde cero alrededor de un único
+        objetivo: que cada alumno reciba la atención que merece, desde la primera clase.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-5">
+        <a href="reservar.html" target="_blank" rel="noopener"
+           class="btn-primary inline-flex items-center gap-3 font-medium px-8 py-4 rounded-full text-sm tracking-wide">
+          Reservar clase de prueba
+        </a>
+        <a href="#programas" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
+          Ver programas →
+        </a>
+      </div>
+
+      <div class="mt-16 flex gap-10 text-xs tracking-widest uppercase text-muted2">
+        <div><span class="block text-2xl font-serif italic text-ivory normal-case tracking-normal">1ª</span>promoción, plazas limitadas</div>
+        <div><span class="block text-2xl font-serif italic text-ivory normal-case tracking-normal">100%</span>atención personalizada</div>
+        <div><span class="block text-2xl font-serif italic text-ivory normal-case tracking-normal">0€</span>primera clase</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 right-8 hidden lg:block text-right">
+    <p class="text-xs tracking-widest uppercase text-muted2">Grupos reducidos</p>
+    <p class="text-sm text-mute font-display italic">Plazas limitadas</p>
+  </div>
+</section>
+
+<!-- ============ FRASE / TRANSICIÓN ============ -->
+<section class="bg-ink py-20 border-t border-line2">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <p class="font-display italic text-2xl sm:text-3xl leading-relaxed text-ivory/90">
+      <span class="gold-text text-4xl quote-mark">“</span>
+      No enseñamos a tocar teclas. Enseñamos a escuchar lo que se está tocando.
+      <span class="gold-text text-4xl quote-mark">”</span>
+    </p>
+    <p class="mt-6 text-xs tracking-widest uppercase text-muted2">— Filosofía de Piano 88</p>
+  </div>
+</section>
+
+<!-- ============ METODOLOGÍA ============ -->
+<section id="metodologia" class="relative py-24 md:py-32 bg-panel border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="fade-up max-w-2xl mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase gold-text mb-4">Nuestro método</p>
+      <h2 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory">
+        Una formación construida<br><span class="italic gold-text">sobre tres pilares.</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-px bg-line2 rounded-2xl overflow-hidden">
+      <!-- Card 1 -->
+      <div class="card group p-10 flex flex-col gap-6">
+        <span class="num text-5xl">I</span>
+        <div>
+          <h3 class="font-serif text-2xl text-ivory mb-3">Precisión técnica</h3>
+          <p class="text-mute text-sm leading-relaxed">
+            Postura, digitación y lectura trabajadas con el rigor del conservatorio
+            clásico, a un ritmo adaptado a cada alumno.
+          </p>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="card group p-10 flex flex-col gap-6">
+        <span class="num text-5xl">II</span>
+        <div>
+          <h3 class="font-serif text-2xl text-ivory mb-3">Acompañamiento real</h3>
+          <p class="text-mute text-sm leading-relaxed">
+            Clases en grupos reducidos pensadas para que el progreso de cada
+            alumno se siga de cerca, no para llenar un horario.
+          </p>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="card group p-10 flex flex-col gap-6">
+        <span class="num text-5xl">III</span>
+        <div>
+          <h3 class="font-serif text-2xl text-ivory mb-3">Conexión emocional</h3>
+          <p class="text-mute text-sm leading-relaxed">
+            La técnica solo importa si sirve a la expresión. Trabajamos repertorio
+            que cada alumno realmente quiere interpretar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMAS ============ -->
+<section id="programas" class="relative py-24 md:py-32 bg-ink border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="fade-up max-w-2xl mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase gold-text mb-4">Programas</p>
+      <h2 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory">
+        Un programa para <span class="italic gold-text">cada etapa.</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Programa 1 -->
+      <div class="fade-up card rounded-2xl p-8 flex flex-col">
+        <span class="text-xs tracking-widest uppercase gold-text">Iniciación</span>
+        <h3 class="font-serif text-2xl text-ivory mt-3 mb-3">Primeros Pasos</h3>
+        <p class="text-mute text-sm leading-relaxed flex-1">
+          El primer contacto con el teclado, la lectura musical y el oído, en un
+          ambiente cálido pensado para niños y adultos sin experiencia previa.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm text-mute">
+          <li class="flex gap-2"><span class="gold-text">—</span>Clases de 45 min</li>
+          <li class="flex gap-2"><span class="gold-text">—</span>Grupos reducidos</li>
+        </ul>
+        <button class="mt-8 text-xs tracking-widest uppercase btn-ghost px-6 py-3 rounded-full self-start">
+          Ver más
+        </button>
+      </div>
+      <!-- Programa 2 -->
+      <div class="fade-up card rounded-2xl p-8 flex flex-col relative ring-1 ring-gold/30">
+        <span class="absolute -top-3 right-6 text-[10px] tracking-widest uppercase bg-gold text-ink2 px-3 py-1 rounded-full font-medium">El más completo</span>
+        <span class="text-xs tracking-widest uppercase gold-text">Perfeccionamiento</span>
+        <h3 class="font-serif text-2xl text-ivory mt-3 mb-3">Repertorio Clásico</h3>
+        <p class="text-mute text-sm leading-relaxed flex-1">
+          Técnica avanzada, repertorio académico y preparación para exámenes
+          oficiales o acceso a conservatorio, con seguimiento personalizado.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm text-mute">
+          <li class="flex gap-2"><span class="gold-text">—</span>Clases de 60 min</li>
+          <li class="flex gap-2"><span class="gold-text">—</span>Seguimiento individual del progreso</li>
+        </ul>
+        <button class="mt-8 btn-primary text-xs tracking-widest uppercase px-6 py-3 rounded-full self-start font-medium">
+          Ver más
+        </button>
+      </div>
+      <!-- Programa 3 -->
+      <div class="fade-up card rounded-2xl p-8 flex flex-col">
+        <span class="text-xs tracking-widest uppercase gold-text">Especialización</span>
+        <h3 class="font-serif text-2xl text-ivory mt-3 mb-3">Interpretación &amp; Repertorio</h3>
+        <p class="text-mute text-sm leading-relaxed flex-1">
+          Profundización en estilo, fraseo e interpretación, con preparación de
+          repertorio para audiciones, concursos y recitales.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm text-mute">
+          <li class="flex gap-2"><span class="gold-text">—</span>Clases de 75 min</li>
+          <li class="flex gap-2"><span class="gold-text">—</span>Recital de cierre anual</li>
+        </ul>
+        <button class="mt-8 text-xs tracking-widest uppercase btn-ghost px-6 py-3 rounded-full self-start">
+          Ver más
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LA ACADEMIA / PROPUESTA ============ -->
+<section id="academia" class="relative py-24 md:py-32 bg-panel border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="fade-up">
+      <p class="text-xs tracking-[0.3em] uppercase gold-text mb-4">Por qué Piano 88</p>
+      <h2 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory mb-6">
+        Una academia nueva,<br><span class="italic gold-text">pensada al detalle.</span>
+      </h2>
+      <p class="text-mute text-base sm:text-lg leading-relaxed mb-8">
+        Piano 88 abre sus puertas con una idea clara: empezar pequeño para hacerlo
+        bien. Sin masificación, sin clases genéricas. Cada grupo se diseña desde el
+        primer alumno, no se ajusta después para encajar a cientos.
+      </p>
+      <div class="space-y-5">
+        <div class="flex gap-4">
+          <span class="num text-2xl shrink-0">—</span>
+          <p class="text-sm text-mute leading-relaxed"><span class="text-ivory">Grupos reducidos desde el primer día</span>, no como promesa de crecimiento futuro.</p>
+        </div>
+        <div class="flex gap-4">
+          <span class="num text-2xl shrink-0">—</span>
+          <p class="text-sm text-mute leading-relaxed"><span class="text-ivory">Pianos acústicos</span> en cada aula, no teclados digitales de sustitución.</p>
+        </div>
+        <div class="flex gap-4">
+          <span class="num text-2xl shrink-0">—</span>
+          <p class="text-sm text-mute leading-relaxed"><span class="text-ivory">Clase de prueba gratuita</span> para que decidas con información real, no con promesas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-up relative">
+      <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-line2">
+        <img src="https://images.unsplash.com/photo-1571974599782-87624638275e?q=80&w=1200&auto=format&fit=crop"
+             alt="Sala de piano de la academia"
+             class="w-full h-full object-cover" loading="lazy">
+      </div>
+      <div class="absolute -bottom-6 -left-6 bg-ink border border-line2 rounded-xl p-5 max-w-[240px] hidden sm:block">
+        <p class="font-display italic text-lg text-ivory leading-snug">“Preferimos diez alumnos bien atendidos a cien anónimos.”</p>
+        <p class="mt-2 text-xs text-muted2 tracking-wide">— Filosofía de Piano 88</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PIANO INTERACTIVO ============ -->
+<section id="probar" class="relative py-24 md:py-32 bg-ink border-t border-line2">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <p class="fade-up text-xs tracking-[0.3em] uppercase gold-text mb-4">Antes de venir</p>
+    <h2 class="fade-up font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory mb-5">
+      Prueba el sonido.
+    </h2>
+    <p class="fade-up text-mute max-w-xl mx-auto mb-14">
+      Una escala sencilla para empezar. Usa el cursor o las teclas
+      <span class="text-ivory font-medium">A S D F G H J K</span> de tu teclado.
+    </p>
+
+    <div class="fade-up relative bg-panel border border-line2 rounded-2xl p-6 sm:p-10">
+      <div id="piano" class="flex justify-center gap-1.5 sm:gap-2 select-none" aria-label="Piano virtual interactivo"></div>
+      <p class="mt-8 text-[11px] tracking-widest uppercase text-muted2">Do — Re — Mi — Fa — Sol — La — Si — Do</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section id="contacto" class="relative py-24 md:py-28 border-t border-line2">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <p class="text-xs tracking-[0.3em] uppercase gold-text mb-5">Empieza hoy</p>
+    <h2 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory mb-6">
+      Tu primera clase es <span class="italic gold-text">gratuita.</span>
+    </h2>
+    <p class="text-mute text-base sm:text-lg mb-10">
+      Sin compromiso. Ven a conocer el aula y el método, y decide con calma
+      si Piano 88 es el sitio donde quieres aprender.
+    </p>
+    <a href="reservar.html" target="_blank" rel="noopener" class="btn-primary inline-flex items-center gap-3 font-medium px-9 py-4 rounded-full text-sm tracking-wide">
+      Reservar clase de prueba
+    </a>
+    <p class="mt-6 text-sm text-mute">
+      ¿Prefieres escribirnos o llamarnos antes?
+      <a href="contacto.html" target="_blank" rel="noopener" class="gold-text hover:text-goldlight transition-colors">Ver datos de contacto →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-panel border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 py-16">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+      <div>
+        <p class="font-serif text-xl text-ivory mb-3">Piano <span class="gold-text italic">88</span></p>
+        <p class="text-mute text-sm leading-relaxed">Academia de piano. Tradición, rigor y calidez, desde el primer alumno.</p>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest uppercase text-ivory mb-4">Academia</p>
+        <ul class="space-y-2 text-sm text-mute">
+          <li><a href="#metodologia" class="hover:text-goldlight transition-colors">Método</a></li>
+          <li><a href="#programas" class="hover:text-goldlight transition-colors">Programas</a></li>
+          <li><a href="#academia" class="hover:text-goldlight transition-colors">La academia</a></li>
+          <li><a href="contacto.html" target="_blank" rel="noopener" class="hover:text-goldlight transition-colors">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest uppercase text-ivory mb-4">Legal</p>
+        <ul class="space-y-2 text-sm text-mute">
+          <li><a href="#" class="hover:text-goldlight transition-colors">Política de privacidad</a></li>
+          <li><a href="#" class="hover:text-goldlight transition-colors">Términos de uso</a></li>
+          <li><a href="#" class="hover:text-goldlight transition-colors">Cookies</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest uppercase text-ivory mb-4">Síguenos</p>
+        <a href="#" aria-label="Instagram" class="inline-flex items-center gap-2 text-sm text-mute hover:text-goldlight transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg>
+          @piano88
+        </a>
+      </div>
+    </div>
+    <div class="mt-14 pt-8 border-t border-line2 flex flex-col sm:flex-row justify-between gap-4 text-xs text-muted2 tracking-wide">
+      <span>© 2026 Piano 88. Todos los derechos reservados.</span>
+      <span class="font-display italic">Primera promoción, 2026.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Scroll reveal ----------
+  const revealEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('in-view'), i * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ---------- Virtual piano ----------
+  const notes = [
+    { note: 'Do',  freq: 261.63, key: 'a' },
+    { note: 'Re',  freq: 293.66, key: 's' },
+    { note: 'Mi',  freq: 329.63, key: 'd' },
+    { note: 'Fa',  freq: 349.23, key: 'f' },
+    { note: 'Sol', freq: 392.00, key: 'g' },
+    { note: 'La',  freq: 440.00, key: 'h' },
+    { note: 'Si',  freq: 493.88, key: 'j' },
+    { note: 'Do2', freq: 523.25, key: 'k' },
+  ];
+
+  const piano = document.getElementById('piano');
+  let audioCtx = null;
+
+  notes.forEach((n) => {
+    const key = document.createElement('div');
+    key.className = 'key bg-ivory rounded-md sm:rounded-lg w-9 sm:w-14 h-36 sm:h-48 flex flex-col items-center justify-end pb-3 border border-line2/60 shadow-[0_4px_0_rgba(0,0,0,0.3)]';
+    key.dataset.keyChar = n.key;
+    key.dataset.freq = n.freq;
+    key.innerHTML = `<span class="key-label text-[10px] sm:text-xs text-ink/40 uppercase tracking-wide">${n.key.toUpperCase()}</span>`;
+    piano.appendChild(key);
+  });
+
+  function playNote(freq) {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.value = 0.0001;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
+    osc.start(now);
+    osc.stop(now + 1.15);
+  }
+
+  function activateKey(el) {
+    if (!el || el.classList.contains('active')) return;
+    el.classList.add('active');
+    playNote(parseFloat(el.dataset.freq));
+  }
+  function deactivateKey(el) {
+    if (el) el.classList.remove('active');
+  }
+
+  piano.querySelectorAll('.key').forEach((el) => {
+    el.addEventListener('mousedown', () => activateKey(el));
+    el.addEventListener('mouseup', () => deactivateKey(el));
+    el.addEventListener('mouseleave', () => deactivateKey(el));
+    el.addEventListener('touchstart', (e) => { e.preventDefault(); activateKey(el); }, { passive: false });
+    el.addEventListener('touchend', () => deactivateKey(el));
+  });
+
+  const pressedKeys = new Set();
+  window.addEventListener('keydown', (e) => {
+    const k = e.key.toLowerCase();
+    if (pressedKeys.has(k)) return;
+    const el = piano.querySelector(`[data-key-char="${k}"]`);
+    if (el) { pressedKeys.add(k); activateKey(el); }
+  });
+  window.addEventListener('keyup', (e) => {
+    const k = e.key.toLowerCase();
+    pressedKeys.delete(k);
+    const el = piano.querySelector(`[data-key-char="${k}"]`);
+    if (el) deactivateKey(el);
+  });
+</script>
+
+</body>
+</html>
