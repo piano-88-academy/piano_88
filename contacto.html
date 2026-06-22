@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — Piano 88</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#15120e',
+          ink2: '#1c1813',
+          panel: '#211c16',
+          line: '#332b21',
+          line2: '#2a2419',
+          gold: '#c5a463',
+          goldlight: '#e3cb95',
+          ivory: '#f4eee2',
+          mute: '#a89a85',
+          muted2: '#7d7060',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'serif'],
+          display: ['Cormorant Garamond', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #15120e;
+    color: #f4eee2;
+    font-family: 'Inter', sans-serif;
+  }
+  .gold-text { color: #c5a463; }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #d9bd80, #b3914f);
+    color: #1c1813;
+    transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 8px 24px rgba(197,164,99,0.18);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 12px 32px rgba(197,164,99,0.32);
+  }
+
+  .btn-ghost {
+    border: 1px solid #332b21;
+    color: #f4eee2;
+    transition: border-color .35s ease, background-color .35s ease;
+  }
+  .btn-ghost:hover { border-color: #c5a463; background-color: rgba(197,164,99,0.06); }
+
+  .card {
+    background: linear-gradient(160deg, #1c1813, #18140f);
+    border: 1px solid #2a2419;
+    transition: border-color .4s ease, transform .4s ease, box-shadow .4s ease;
+  }
+  .card:hover {
+    border-color: rgba(197,164,99,0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 48px -16px rgba(0,0,0,0.5), 0 0 0 1px rgba(197,164,99,0.08);
+  }
+
+  ::selection { background: rgba(197,164,99,0.35); color: #1c1813; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #c5a463;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+<!-- ============ NAV ============ -->
+<header class="border-b border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="piano-lab.html" class="font-serif text-xl tracking-wide text-ivory">
+      Piano <span class="gold-text italic">88</span>
+    </a>
+    <a href="piano-lab.html" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
+      ← Volver al inicio
+    </a>
+  </div>
+</header>
+
+<!-- ============ CONTENIDO ============ -->
+<main class="flex-1 flex items-center py-20">
+  <div class="max-w-3xl mx-auto px-6 w-full">
+    <p class="text-xs tracking-[0.3em] uppercase gold-text mb-5">Contacto</p>
+    <h1 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory mb-6">
+      Escríbenos o <span class="italic gold-text">llámanos</span>.
+    </h1>
+    <p class="text-mute text-base sm:text-lg leading-relaxed max-w-xl mb-14">
+      Respondemos personalmente a cada mensaje. Cuéntanos qué buscas —para ti, para
+      tu hijo o hija— y te ayudamos a encontrar el programa adecuado.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      <a href="mailto:corronsaiprojects@gmail.com"
+         class="card group rounded-2xl p-8 flex flex-col gap-4">
+        <div class="w-11 h-11 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+        </div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-muted2 mb-1">Email</p>
+          <p class="text-ivory text-lg break-all group-hover:text-goldlight transition-colors">corronsaiprojects@gmail.com</p>
+        </div>
+      </a>
+
+      <a href="tel:+34628179088"
+         class="card group rounded-2xl p-8 flex flex-col gap-4">
+        <div class="w-11 h-11 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-muted2 mb-1">Teléfono</p>
+          <p class="text-ivory text-lg group-hover:text-goldlight transition-colors">+34 628 179 088</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="mt-12 flex flex-wrap items-center gap-5">
+      <a href="reservar.html" class="btn-primary inline-flex items-center gap-3 font-medium px-8 py-4 rounded-full text-sm tracking-wide">
+        Reservar clase de prueba
+      </a>
+      <a href="piano-lab.html#programas" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
+        Ver programas →
+      </a>
+    </div>
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 py-10 flex flex-col sm:flex-row justify-between gap-4 text-xs text-muted2 tracking-wide">
+    <span>© 2026 Piano 88. Todos los derechos reservados.</span>
+    <span class="font-display italic">Primera promoción, 2026.</span>
+  </div>
+</footer>
+
+</body>
+</html>

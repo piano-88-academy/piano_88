@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservar clase de prueba — Piano 88</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#15120e',
+          ink2: '#1c1813',
+          panel: '#211c16',
+          line: '#332b21',
+          line2: '#2a2419',
+          gold: '#c5a463',
+          goldlight: '#e3cb95',
+          ivory: '#f4eee2',
+          mute: '#a89a85',
+          muted2: '#7d7060',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'serif'],
+          display: ['Cormorant Garamond', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #15120e;
+    color: #f4eee2;
+    font-family: 'Inter', sans-serif;
+  }
+  .gold-text { color: #c5a463; }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #d9bd80, #b3914f);
+    color: #1c1813;
+    transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 8px 24px rgba(197,164,99,0.18);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 12px 32px rgba(197,164,99,0.32);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  input, select, textarea {
+    background-color: #1c1813;
+    border: 1px solid #332b21;
+    color: #f4eee2;
+    transition: border-color .3s ease, background-color .3s ease;
+  }
+  input::placeholder, textarea::placeholder { color: #7d7060; }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #c5a463;
+    background-color: #211c16;
+  }
+  label { color: #a89a85; }
+
+  ::selection { background: rgba(197,164,99,0.35); color: #1c1813; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #c5a463;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+<!-- ============ NAV ============ -->
+<header class="border-b border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="piano-lab.html" class="font-serif text-xl tracking-wide text-ivory">
+      Piano <span class="gold-text italic">88</span>
+    </a>
+    <a href="piano-lab.html" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
+      ← Volver al inicio
+    </a>
+  </div>
+</header>
+
+<!-- ============ CONTENIDO ============ -->
+<main class="flex-1 py-20">
+  <div class="max-w-2xl mx-auto px-6 w-full">
+    <p class="text-xs tracking-[0.3em] uppercase gold-text mb-5">Reservar clase</p>
+    <h1 class="font-serif font-light text-4xl sm:text-5xl leading-tight text-ivory mb-6">
+      Tu primera clase es <span class="italic gold-text">gratuita</span>.
+    </h1>
+    <p class="text-mute text-base sm:text-lg leading-relaxed mb-12">
+      Rellena estos datos y se abrirá tu programa de correo con un mensaje ya
+      preparado, listo para enviarnos. Te contestaremos en breve para concretar
+      día y hora.
+    </p>
+
+    <form id="reserva-form" class="space-y-6" novalidate>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <label for="nombre" class="block text-xs tracking-widest uppercase mb-2">Nombre *</label>
+          <input type="text" id="nombre" name="nombre" required
+                 class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Tu nombre">
+        </div>
+        <div>
+          <label for="email" class="block text-xs tracking-widest uppercase mb-2">Email *</label>
+          <input type="email" id="email" name="email" required
+                 class="w-full rounded-lg px-4 py-3 text-sm" placeholder="tucorreo@ejemplo.com">
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <label for="telefono" class="block text-xs tracking-widest uppercase mb-2">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono"
+                 class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Opcional">
+        </div>
+        <div>
+          <label for="programa" class="block text-xs tracking-widest uppercase mb-2">Programa de interés</label>
+          <select id="programa" name="programa" class="w-full rounded-lg px-4 py-3 text-sm">
+            <option value="Primeros Pasos (Iniciación)">Primeros Pasos — Iniciación</option>
+            <option value="Repertorio Clásico (Perfeccionamiento)">Repertorio Clásico — Perfeccionamiento</option>
+            <option value="Interpretación & Repertorio (Especialización)">Interpretación &amp; Repertorio — Especialización</option>
+            <option value="No lo sé todavía">No lo sé todavía</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="mensaje" class="block text-xs tracking-widest uppercase mb-2">Cuéntanos algo más (opcional)</label>
+        <textarea id="mensaje" name="mensaje" rows="4"
+                   class="w-full rounded-lg px-4 py-3 text-sm resize-none"
+                   placeholder="Edad, experiencia previa, disponibilidad horaria..."></textarea>
+      </div>
+
+      <p id="form-error" class="text-sm text-red-400 hidden">Por favor, completa tu nombre y email antes de continuar.</p>
+
+      <button type="submit"
+              class="btn-primary inline-flex items-center gap-3 font-medium px-8 py-4 rounded-full text-sm tracking-wide">
+        Enviar solicitud de reserva
+      </button>
+      <p class="text-xs text-muted2 mt-3">Al enviar, se abrirá tu aplicación de correo con el mensaje ya redactado.</p>
+    </form>
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-line2">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 py-10 flex flex-col sm:flex-row justify-between gap-4 text-xs text-muted2 tracking-wide">
+    <span>© 2026 Piano 88. Todos los derechos reservados.</span>
+    <span class="font-display italic">Primera promoción, 2026.</span>
+  </div>
+</footer>
+
+<script>
+  const CONTACT_EMAIL = 'corronsaiprojects@gmail.com';
+
+  const form = document.getElementById('reserva-form');
+  const errorEl = document.getElementById('form-error');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const programa = document.getElementById('programa').value;
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    if (!nombre || !email) {
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    errorEl.classList.add('hidden');
+
+    const subject = `Reserva de clase de prueba — ${nombre}`;
+    const bodyLines = [
+      `Nombre: ${nombre}`,
+      `Email: ${email}`,
+      telefono ? `Teléfono: ${telefono}` : null,
+      `Programa de interés: ${programa}`,
+      mensaje ? `\nMensaje:\n${mensaje}` : null,
+    ].filter(Boolean);
+
+    const body = bodyLines.join('\n');
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoUrl;
+  });
+</script>
+
+</body>
+</html>
