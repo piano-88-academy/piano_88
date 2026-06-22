@@ -89,10 +89,10 @@
 <!-- ============ NAV ============ -->
 <header class="border-b border-line2">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="piano-lab.html" class="font-serif text-xl tracking-wide text-ivory">
+    <a href="index.html" class="font-serif text-xl tracking-wide text-ivory">
       Piano <span class="gold-text italic">88</span>
     </a>
-    <a href="piano-lab.html" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
+    <a href="index.html" class="text-sm text-mute hover:text-ivory transition-colors tracking-wide">
       ← Volver al inicio
     </a>
   </div>
@@ -106,12 +106,15 @@
       Tu primera clase es <span class="italic gold-text">gratuita</span>.
     </h1>
     <p class="text-mute text-base sm:text-lg leading-relaxed mb-12">
-      Rellena estos datos y se abrirá tu programa de correo con un mensaje ya
-      preparado, listo para enviarnos. Te contestaremos en breve para concretar
-      día y hora.
+      Rellena estos datos y te los enviaremos directamente. Te contestaremos
+      en breve para concretar día y hora de tu clase de prueba.
     </p>
 
     <form id="reserva-form" class="space-y-6" novalidate>
+      <input type="hidden" name="access_key" value="2b8bf220-0451-45b9-a341-9e3304684402">
+      <input type="hidden" name="subject" value="Nueva reserva de clase de prueba — Piano 88">
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+
       <div class="grid sm:grid-cols-2 gap-6">
         <div>
           <label for="nombre" class="block text-xs tracking-widest uppercase mb-2">Nombre *</label>
@@ -150,12 +153,14 @@
       </div>
 
       <p id="form-error" class="text-sm text-red-400 hidden">Por favor, completa tu nombre y email antes de continuar.</p>
+      <p id="form-success" class="text-sm text-gold hidden">Tu solicitud se ha enviado correctamente. Te contestaremos en breve.</p>
+      <p id="form-fail" class="text-sm text-red-400 hidden">No hemos podido enviar tu solicitud. Inténtalo de nuevo o escríbenos directamente a <a href="mailto:corronsaiprojects@gmail.com" class="underline">corronsaiprojects@gmail.com</a>.</p>
 
-      <button type="submit"
+      <button type="submit" id="submit-btn"
               class="btn-primary inline-flex items-center gap-3 font-medium px-8 py-4 rounded-full text-sm tracking-wide">
-        Enviar solicitud de reserva
+        <span id="submit-label">Enviar solicitud de reserva</span>
       </button>
-      <p class="text-xs text-muted2 mt-3">Al enviar, se abrirá tu aplicación de correo con el mensaje ya redactado.</p>
+      <p class="text-xs text-muted2 mt-3">Tus datos se envían de forma segura y solo se usan para contactarte.</p>
     </form>
   </div>
 </main>
@@ -169,39 +174,52 @@
 </footer>
 
 <script>
-  const CONTACT_EMAIL = 'corronsaiprojects@gmail.com';
-
   const form = document.getElementById('reserva-form');
   const errorEl = document.getElementById('form-error');
+  const successEl = document.getElementById('form-success');
+  const failEl = document.getElementById('form-fail');
+  const submitBtn = document.getElementById('submit-btn');
+  const submitLabel = document.getElementById('submit-label');
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
-    const telefono = document.getElementById('telefono').value.trim();
-    const programa = document.getElementById('programa').value;
-    const mensaje = document.getElementById('mensaje').value.trim();
+
+    errorEl.classList.add('hidden');
+    successEl.classList.add('hidden');
+    failEl.classList.add('hidden');
 
     if (!nombre || !email) {
       errorEl.classList.remove('hidden');
       return;
     }
-    errorEl.classList.add('hidden');
 
-    const subject = `Reserva de clase de prueba — ${nombre}`;
-    const bodyLines = [
-      `Nombre: ${nombre}`,
-      `Email: ${email}`,
-      telefono ? `Teléfono: ${telefono}` : null,
-      `Programa de interés: ${programa}`,
-      mensaje ? `\nMensaje:\n${mensaje}` : null,
-    ].filter(Boolean);
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Enviando…';
 
-    const body = bodyLines.join('\n');
-    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      const formData = new FormData(form);
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData,
+      });
+      const result = await response.json();
 
-    window.location.href = mailtoUrl;
+      if (result.success) {
+        successEl.classList.remove('hidden');
+        form.reset();
+      } else {
+        failEl.classList.remove('hidden');
+      }
+    } catch (err) {
+      failEl.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = 'Enviar solicitud de reserva';
+    }
   });
 </script>
 
